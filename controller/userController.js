@@ -8,12 +8,22 @@ module.exports.profile = function(req,res){
 
 module.exports.signUp = function(req,res)
 {
-    return res.render('sign_up');
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
+    return res.render('sign_up',{
+        title: "Sign Up page"
+    });
 }
 
 module.exports.signIn = function(req,res)
 {
-    return res.render('sign_in');
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
+    return res.render('sign_in',{
+        title: "Sign In page"
+    });
 }
 
 module.exports.createUser = function(req,res)
@@ -49,48 +59,14 @@ module.exports.createUser = function(req,res)
 
 module.exports.logIn = function(req,res)
 {
-    console.log(req.body);
-    User.findOne({email: req.body.email}, function(err,user){
-        if(err)
-        {
-            console.log(`Error logging In at the moment, please try again ${err}`);
-            return;
-        }
-        if(!user)
-        {
-            console.log("User does not exist, please sign up first or check your email and password");
-            return res.redirect('/');
-        }else{
-            if(user.password == req.body.password){
-                console.log("Sign In approved, Welcome");
-                console.log(user);
-                res.cookie('user_id', user.id);
-                console.log(res.cookie.user_id);
-                return res.redirect('/users/profile');
-            } else{
-                console.log("Incorrect password", err);
-                return res.redirect('back');
-            }
-        }
-    });   
+   return res.redirect('/');
 }
 
-module.exports.profile = function(req,res)
+
+module.exports.destroySession = function(req,res,next)
 {
-    console.log(req.cookies);
-    if(req.cookies.user_id)
-    {
-        User.findById(req.cookies.user_id, function(err,user){
-            if(err){
-                console.log("Could not fetch/match cookies");
-                return;   
-            }
-            else res.render('user_profile',{
-                title: "Profile Page",
-                user: user
-            })
-        })
-    } else {
-        res.redirect('users/sign_up')
-    }
+    req.logout(function(err){
+        if(err) return next(err);
+        return res.redirect('/');
+    });
 }
