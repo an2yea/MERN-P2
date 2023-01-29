@@ -1,11 +1,22 @@
 <h1>
     Codeial / <%= title %>
 
-    <a href="/users/sign_up">
-        <button action="/users/sign_up"> Sign Up</button>
-    </a>
-    <a href="users/sign_in">
-        <button> Sign In</button>
-    </a>
+    <section id="feed-posts">
+        <h4>Posts</h4>
+        <form action="/posts/create_post" id="new-post-form" method="POST">
+            <textarea name="content" cols="30" rows="3"></textarea>
+            <input type="submit" value="Post">
+        </form>
+
+        <div id = "post-list-container">
+            <ul>
+                <% for(post of posts){ %>
+
+                    <li> <%= post.content %> </li>
+                    <li> Hellooo </li>
+                <% } %>
+           </ul>
+        </div>
+    </section>
 
 </h1>

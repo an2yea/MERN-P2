@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 
 const homeController = require('../controller/homeController');
-
+const postsController = require('../controller/postsController')
 
 router.get('/', homeController.home);
 router.use('/users', require('./users'));
-
+router.use('/posts', require('./post'));
 
 module.exports = router;
