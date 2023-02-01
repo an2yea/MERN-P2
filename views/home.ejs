@@ -17,10 +17,10 @@
         <ul>
             <% for(post of posts){ %>
                 
-            <li>
+            <li id="post-<%= post._id %>">
                 <p>
                     <% if(locals.user && (locals.user.id == post.user.id)) { %>
-                        <small><a href="/posts/delete_post/<%= post.id %>">Delete </small></a>
+                        <small><a class="delete-post" href="/posts/delete_post/<%= post.id %>">Delete </small></a>
                     <% } %>
                         <%= post.content %>
                     <br>
@@ -60,4 +60,7 @@
             <%} %>
         </ul>
     </div>
+
 </section>
+
+<script src="/js/home_posts.js"></script>
